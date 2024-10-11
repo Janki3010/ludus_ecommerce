@@ -1,0 +1,4 @@
+flask
+flask_restful
+flask_mysqldb
+flask_redis
