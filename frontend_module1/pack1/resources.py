@@ -220,11 +220,16 @@ class ProductDetails(Resource):
     def get(self):
         product_id = request.args.get('product_id')
         session['product_id'] = product_id
-        return make_response(render_template('product-detail.html'))
 
-    def post(self):
-        product_id = session.get('product_id')
         data = {
             'product_id': product_id
         }
+        response = requests.post('http://127.0.0.1:7100/product_details', json=data)
+
+        if response.status_code == 200:
+            product_details = response.json()['product_details']
+            return make_response(render_template('product-detail.html', product=product_details))
+        else:
+            return make_response(render_template('product-detail.html', error='Product details not found'))
+                
         
