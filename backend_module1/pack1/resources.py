@@ -185,3 +185,12 @@ class Products(Resource):
             })
 
         return {'message': 'success', 'products': product_list}, 200
+
+class Product_detail(Resource):
+    def post(self):
+        data = request.json
+        product_id = data.get('product_id')
+        cur = mysql.connection.cursor()
+        cur.execute('select product_name, description, price, image, qty from ludus_ecommerce.products where product_id = %s',(product_id,))
+        product_detail = cur.fetchone()
+        return {'message': 'success', 'product_details': product_detail}, 200
